@@ -16,8 +16,9 @@ def order():
         print(amount)
 
         # Create a new resource
+        # REPLACE WITH YOUR SERVER HERE
         response = requests.post(
-            'https://intense-dusk-05888.herokuapp.com/engine-rest/process-definition/key/payment-retrieval/start',
+            'https://siddhix.bpmcep.ics.unisg.ch/engine-rest/process-definition/key/payment-retrieval/start',
             json={
                 "variables": {
                     "amount": {
