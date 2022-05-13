@@ -12,11 +12,11 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-@app.route("/news")
+@app.route("/news",methods=['GET', 'POST'])
 def news_display():
     if request.method == 'POST':
         print(request)
-        print(request.content)
+        print(request.json())
 
     elif request.method == 'GET':
         print(request)
