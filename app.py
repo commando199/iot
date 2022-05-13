@@ -16,9 +16,11 @@ app = Flask(__name__)
 def news_display():
     if request.method == 'POST':
         print(request)
+        print(response.content)
 
     elif request.method == 'GET':
         print(request)
+        print(response.content)
 
     return render_template('news.html')
 
