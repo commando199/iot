@@ -8,7 +8,6 @@ import plotly.graph_objects as go
 import requests
 from flask import Flask, render_template, request
 from Ohlc import Ohlc, to_timestamp
-from Product import Store
 from datetime import datetime
 
 app = Flask(__name__)
@@ -56,7 +55,6 @@ def accepted():
 
 @app.route('/', methods=['GET', 'POST'])
 def order():
-    productList = Store()
     if request.method == 'POST':
         interest = request.form['interest']
         quantity = int(request.form['quantity'])
