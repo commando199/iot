@@ -11,23 +11,23 @@
   <h1>Order Status</h1>
     <div class="row justify-content-md-center">
 
-            {% if code == 200 %}
+
 
                 <p> Your order has been accepted</p>
-                <p> Pizza: {{ item }} </p>
+                <p> Chosen Investment: {{ interest }} </p>
                 <p> Quantity: {{ quantity }} </p>
-                <p> Amount: {{ amount }} </p>
-                <p> Your tracking ID is {{ instanceID }} </p>
+         {% autoescape off %}
+            {{ figures[0]|safe}}
+        {{ figures[1]|safe}}
+        {{ figures[2]|safe}}
+        {{ figures[3]|safe}}
+        {{ figures[4]|safe}}
+        {% endautoescape %}
 
-            {% endif %}
+        <p align="center"><a href=accepted ><button class=grey style="height:75px;width:150px">vmd timestamp</button></a></p>
 
-             {% if code != 200 %}
 
-                <p>There has been a problem with your order.</p>
 
-                <p> {{ code }} </p>
-
-            {% endif %}
         </div>
     </div>
 
