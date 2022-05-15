@@ -38,14 +38,7 @@ class New_News(db.Model):
 
 @app.route("/news", methods=['GET'])
 def news_display():
-    db.create_all()
-    db.session.commit()
     print(request)
-    processid = request.args.get('processid')
-    new_news = New_News(1,processid)
-    db.session.add(new_news)
-    db.session.commit()
-
     pusher_client = pusher.Pusher(
         app_id='1409665',
         key='46d5854670effe0f3314',
@@ -55,8 +48,7 @@ def news_display():
     )
 
     pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
-    students = New_News.query.all()
-    print(students)
+
     #checkfor news and display them in old page
 
     return render_template('news.html')
