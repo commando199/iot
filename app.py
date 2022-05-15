@@ -84,11 +84,27 @@ def accepted():
                           "repeats": {"value": 0}
                           }
         }
-        complete_url = url
 
         # Call method "complete" with prepared url
-        complete = requests.post(complete_url, json=new_request)
+        complete = requests.post(url, json=new_request)
         print('complete status code: ', complete.status_code)
+    else:
+        url1 = 'https://siddhi4.bpmcep.ics.unisg.ch/engine-rest/task/'
+        response = requests.post(url1, json={})
+
+        print(response)
+        responseJson = response.json()
+
+        taskId = responseJson[0]['id']  # get ID of the task
+        url = f'https://siddhi4.bpmcep.ics.unisg.ch/engine-rest/task/{taskId}/complete'
+        new_request = {
+            "variables": {
+                          }
+        }
+        # Call method "complete" with prepared url
+        complete = requests.post(url, json=new_request)
+        print('complete status code: ', complete.status_code)
+
 
     return render_template('accepted.html')
 
