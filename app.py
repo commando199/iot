@@ -39,6 +39,7 @@ class New_News(db.Model):
 @app.route("/news", methods=['GET'])
 def news_display():
     print(request)
+    t.sleep(3)
     pusher_client = pusher.Pusher(
         app_id='1409665',
         key='46d5854670effe0f3314',
@@ -48,8 +49,8 @@ def news_display():
     )
 
     pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
+    print("triggered pusher event")
 
-    #checkfor news and display them in old page
 
     return render_template('news.html')
 
