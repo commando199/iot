@@ -83,7 +83,6 @@ def accepted():
         print('complete status code: ', complete.status_code)
     else:
         url1 = 'https://siddhi4.bpmcep.ics.unisg.ch/engine-rest/task/'
-        t.sleep(5)
         response = requests.post(url1, json={})
 
         print(response)
