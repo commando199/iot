@@ -1,8 +1,12 @@
+import os
 from datetime import date, timedelta
 import time as t
 import yfinance as yf
 import pandas as pandas
 import plotly
+from flask_sqlalchemy import SQLAlchemy
+import pusher
+from sqlalchemy.sql import func
 import csv
 import plotly.graph_objects as go
 import requests
@@ -11,16 +15,49 @@ from Ohlc import Ohlc, to_timestamp
 from datetime import datetime
 
 app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+        'sqlite:///' + os.path.join(basedir, 'database.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@app.route("/news",methods=['GET', 'POST'])
+db = SQLAlchemy(app)
+
+class New_News(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    new_news = db.Column(db.Boolean, nullable=False)
+    id_of_process = db.Column(db.String(100))
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+
+    def __init__(self, new_news, id_of_process):
+        self.new_news = new_news
+        self.id_of_process = id_of_process
+
+    def __repr__(self):
+        return self.id_of_process
+
+@app.route("/news", methods=['GET'])
 def news_display():
-    if request.method == 'POST':
-        print(request)
-        print(request.json())
+    db.create_all()
+    db.session.commit()
+    print(request)
+    processid = request.args.get('processid')
+    new_news = New_News(1,processid)
+    db.session.add(new_news)
+    db.session.commit()
 
-    elif request.method == 'GET':
-        print(request)
-        print(request.content)
+    pusher_client = pusher.Pusher(
+        app_id='1409665',
+        key='46d5854670effe0f3314',
+        secret='1640d6bccd9e193ed09a',
+        cluster='eu',
+        ssl=True
+    )
+
+    pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
+    students = New_News.query.all()
+    print(students)
+    #checkfor news and display them in old page
 
     return render_template('news.html')
 
